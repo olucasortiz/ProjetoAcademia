@@ -1,4 +1,5 @@
 Gym Management System
+
 O Gym Management System é uma aplicação completa de gerenciamento de academias desenvolvida com o framework Spring Boot em Java, com integração de PostgreSQL como banco de dados relacional. O sistema oferece funcionalidades essenciais para administração de academias, como controle de usuários, gerenciamento de treinos personalizados, autenticação e autorização segura via Spring Security, além de integração futura para notificações via SMS e email.
 
 Este projeto também foca na qualidade do código, utilizando boas práticas de desenvolvimento com testes unitários, cobertura de código com JUnit e Mockito. A interface de usuário será desenvolvida utilizando tecnologias modernas de front-end como HTML, CSS e JavaScript, permitindo uma experiência amigável e responsiva.
