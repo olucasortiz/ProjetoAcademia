@@ -10,7 +10,10 @@ public class User {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
     private String name;
+<<<<<<< HEAD
     @Column(nullable = false, unique = true)//vai garantir qe o email seja unico
+=======
+>>>>>>> e4b9b1d18d73ace7054103483583cfad4a824eb6
     private String email;
     private String password;
     private String role;

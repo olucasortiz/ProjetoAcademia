@@ -1,5 +1,6 @@
 package com.treinos.treinos.controllers;
 
+<<<<<<< HEAD
 import com.treinos.treinos.models.Workout;
 import com.treinos.treinos.services.WorkoutService;
 import io.swagger.v3.oas.annotations.Operation;
@@ -90,4 +91,7 @@ public class WorkoutController {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
         }
     }
+=======
+public class WorkoutController {
+>>>>>>> e4b9b1d18d73ace7054103483583cfad4a824eb6
 }

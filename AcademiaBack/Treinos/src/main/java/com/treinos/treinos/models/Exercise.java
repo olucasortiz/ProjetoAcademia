@@ -10,7 +10,10 @@ public class Exercise{
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
+<<<<<<< HEAD
     @Column(nullable = false, unique = true)
+=======
+>>>>>>> e4b9b1d18d73ace7054103483583cfad4a824eb6
     private String name;
     private String description;
 

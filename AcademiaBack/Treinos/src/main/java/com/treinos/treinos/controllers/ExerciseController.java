@@ -2,9 +2,12 @@ package com.treinos.treinos.controllers;
 
 import com.treinos.treinos.models.Exercise;
 import com.treinos.treinos.services.ExerciseService;
+<<<<<<< HEAD
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
+=======
+>>>>>>> e4b9b1d18d73ace7054103483583cfad4a824eb6
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -21,16 +24,20 @@ public class ExerciseController {
     private ExerciseService exerciseService;
 
 
+<<<<<<< HEAD
     @Operation(summary = "Get all exercises", description = "This endpoint retrieves all exercises in the system")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Exercises retrieved successfully"),
             @ApiResponse(responseCode = "500", description = "Internal server error")
     })
+=======
+>>>>>>> e4b9b1d18d73ace7054103483583cfad4a824eb6
     @GetMapping
     public ResponseEntity<List<Exercise>> getAllExercises() {
         List<Exercise> exercises = exerciseService.findAllExercises();
         return ResponseEntity.ok(exercises);
     }
+<<<<<<< HEAD
 
     @Operation(summary = "Get an exercise by ID", description = "This endpoint retrieves an exercise by its ID.")
     @ApiResponses(value = {
@@ -38,6 +45,8 @@ public class ExerciseController {
             @ApiResponse(responseCode = "404", description = "Exercise not found"),
             @ApiResponse(responseCode = "500", description = "Internal server error")
     })
+=======
+>>>>>>> e4b9b1d18d73ace7054103483583cfad4a824eb6
     @GetMapping("/{id}")
     public ResponseEntity<Exercise> getExerciseById(@PathVariable Integer id) {
         try{
@@ -48,18 +57,22 @@ public class ExerciseController {
         }
     }
 
+<<<<<<< HEAD
     @Operation(summary = "Create a new exercise", description = "This endpoint creates a new exercise in the system")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "201", description = "Exercise successfully created"),
             @ApiResponse(responseCode = "400", description = "Invalid input provided"),
             @ApiResponse(responseCode = "500", description = "Internal server error")
     })
+=======
+>>>>>>> e4b9b1d18d73ace7054103483583cfad4a824eb6
     @PostMapping
     public ResponseEntity<Exercise> createExercise(@RequestBody Exercise exercise) {
         Exercise createdExercise = exerciseService.createExercise(exercise);
         return ResponseEntity.status(HttpStatus.CREATED).body(createdExercise);
     }
 
+<<<<<<< HEAD
 
     @Operation(summary = "Update an exercise", description = "This endpoint updates an exercise's details")
     @ApiResponses(value = {
@@ -69,6 +82,8 @@ public class ExerciseController {
             @ApiResponse(responseCode = "500", description = "Internal server error")
     })
 
+=======
+>>>>>>> e4b9b1d18d73ace7054103483583cfad4a824eb6
     @PutMapping("/{id}")
     public ResponseEntity<Exercise> updateExercise(@PathVariable Integer id, @RequestBody Exercise exercise) {
         try{
@@ -80,6 +95,7 @@ public class ExerciseController {
         }
     }
 
+<<<<<<< HEAD
 
     @Operation(summary = "Delete an exercise", description = "This endpoint deletes an exercise by its ID")
     @ApiResponses(value = {
@@ -87,6 +103,8 @@ public class ExerciseController {
             @ApiResponse(responseCode = "404", description = "Exercise not found"),
             @ApiResponse(responseCode = "500", description = "Internal server error")
     })
+=======
+>>>>>>> e4b9b1d18d73ace7054103483583cfad4a824eb6
     @DeleteMapping("/{id}")
     public ResponseEntity<Exercise> deleteExercise(@PathVariable Integer id) {
         try{

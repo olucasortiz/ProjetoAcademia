@@ -9,9 +9,14 @@ public class Workout {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
+<<<<<<< HEAD
     @Column(nullable = false)
     private String name;
     @Column(nullable = false)
+=======
+
+    private String name;
+>>>>>>> e4b9b1d18d73ace7054103483583cfad4a824eb6
     private String description;
 
     @ManyToOne

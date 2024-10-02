@@ -22,11 +22,18 @@ public class WorkoutService {
     private UserRepository userRepository;
 
     // Cria um novo treino e associa a um treinador
+<<<<<<< HEAD
     public Workout createWorkout(Workout workout) {
         return workoutRepository.save(workout);
     }
 
 
+=======
+    public Workout createWorkout(Workout workout, Integer trainerId) {
+        return workoutRepository.save(workout);
+    }
+
+>>>>>>> e4b9b1d18d73ace7054103483583cfad4a824eb6
     // Encontra um treino pelo seu ID
     public Workout findWorkoutById(Integer id) {
         Optional<Workout> workout = workoutRepository.findById(id);
@@ -62,10 +69,13 @@ public class WorkoutService {
         else throw new RuntimeException("Workout not found");
     }
 
+<<<<<<< HEAD
     public List<Workout> findAllWorkouts() {
         return workoutRepository.findAll();
     }
 
+=======
+>>>>>>> e4b9b1d18d73ace7054103483583cfad4a824eb6
     // Deleta um treino pelo seu ID
     public void deleteWorkout(Integer id) {
         Optional<Workout> workoutOptional = workoutRepository.findById(id);
