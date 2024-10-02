@@ -14,6 +14,9 @@ public class UserService {
         private UserRepository userRepository;
 
         public User createUser(User user) {
+
+            if(userRepository.findByEmail(user.getEmail()).isPresent())
+                throw new RuntimeException("Email ja cadastrado");
             return userRepository.save(user);
         }
 
