@@ -41,6 +41,8 @@ public class UserService {
                 updatedUser.setName(userDetails.getName());
                 updatedUser.setEmail(userDetails.getEmail());
                 updatedUser.setPassword(userDetails.getPassword());
+                updatedUser.setRole(userDetails.getRole());
+                updatedUser.setCellphone(userDetails.getCellphone());
                 return userRepository.save(updatedUser);
             }
             else throw new RuntimeException("User not found");

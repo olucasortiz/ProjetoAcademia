@@ -22,9 +22,10 @@ public class WorkoutService {
     private UserRepository userRepository;
 
     // Cria um novo treino e associa a um treinador
-    public Workout createWorkout(Workout workout, Integer trainerId) {
+    public Workout createWorkout(Workout workout) {
         return workoutRepository.save(workout);
     }
+
 
     // Encontra um treino pelo seu ID
     public Workout findWorkoutById(Integer id) {
@@ -59,6 +60,10 @@ public class WorkoutService {
             return workoutRepository.save(workout);
         }
         else throw new RuntimeException("Workout not found");
+    }
+
+    public List<Workout> findAllWorkouts() {
+        return workoutRepository.findAll();
     }
 
     // Deleta um treino pelo seu ID
