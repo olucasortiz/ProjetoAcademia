@@ -2,15 +2,12 @@ package com.treinos.treinos.controllers;
 
 import com.treinos.treinos.models.Exercise;
 import com.treinos.treinos.models.User;
-<<<<<<< HEAD
 import com.treinos.treinos.services.EmailService;
 import com.treinos.treinos.services.UserService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
-=======
 import com.treinos.treinos.services.UserService;
->>>>>>> e4b9b1d18d73ace7054103483583cfad4a824eb6
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -22,7 +19,6 @@ import java.util.List;
 @RequestMapping("/gym/user")
 public class UserController {
     @Autowired
-<<<<<<< HEAD
     private EmailService emailService;
 
     @Autowired
@@ -33,25 +29,18 @@ public class UserController {
             @ApiResponse(responseCode = "200", description = "Users retrieved successfully"),
             @ApiResponse(responseCode = "500", description = "Internal server error")
     })
-=======
-    private UserService userService;
-
->>>>>>> e4b9b1d18d73ace7054103483583cfad4a824eb6
     @GetMapping
     public ResponseEntity<List<User>> getAllUsers() {
         List<User> users = userService.findAllUsers();
         return ResponseEntity.ok(users);
     }
 
-<<<<<<< HEAD
     @Operation(summary = "Get a user by ID", description = "This endpoint retrieves a user by their ID.")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "User found"),
             @ApiResponse(responseCode = "404", description = "User not found"),
             @ApiResponse(responseCode = "500", description = "Internal server error")
     })
-=======
->>>>>>> e4b9b1d18d73ace7054103483583cfad4a824eb6
     @GetMapping("/{id}")
     public ResponseEntity<User> getUserById(@PathVariable Integer id) {
         try{
@@ -63,7 +52,6 @@ public class UserController {
         }
     }
 
-<<<<<<< HEAD
     @Operation(summary = "Create a new user", description = "This endpoint creates a new user in the system")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "201", description = "User successfully created"),
@@ -93,14 +81,6 @@ public class UserController {
             @ApiResponse(responseCode = "404", description = "User not found"),
             @ApiResponse(responseCode = "500", description = "Internal server error")
     })
-=======
-    @PostMapping
-    public ResponseEntity<User> addUser(@RequestBody User user) {
-        User createdUser = userService.createUser(user);
-        return ResponseEntity.status(HttpStatus.CREATED).body(createdUser);
-    }
-
->>>>>>> e4b9b1d18d73ace7054103483583cfad4a824eb6
     @PutMapping("/{id}")
     public ResponseEntity<User> updateUser(@PathVariable Integer id, @RequestBody User user) {
         try{
@@ -111,7 +91,6 @@ public class UserController {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
         }
     }
-<<<<<<< HEAD
 
     @Operation(summary = "Delete a user", description = "This endpoint deletes a user by their ID.")
     @ApiResponses(value = {
@@ -119,8 +98,6 @@ public class UserController {
             @ApiResponse(responseCode = "404", description = "User not found"),
             @ApiResponse(responseCode = "500", description = "Internal server error")
     })
-=======
->>>>>>> e4b9b1d18d73ace7054103483583cfad4a824eb6
     @DeleteMapping("{id}")
     public ResponseEntity<User> deleteUser(@PathVariable Integer id) {
         try{

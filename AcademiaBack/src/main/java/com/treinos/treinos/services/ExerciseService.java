@@ -16,11 +16,8 @@ public class ExerciseService {
 
     // Cria um novo exercício
     public Exercise createExercise(Exercise exercise) {
-<<<<<<< HEAD
         if(exerciseRepository.findByName(exercise.getName()).isPresent())
             throw new RuntimeException("Exercise already exists");
-=======
->>>>>>> e4b9b1d18d73ace7054103483583cfad4a824eb6
         return exerciseRepository.save(exercise);
     }
 

@@ -14,12 +14,11 @@ public class UserService {
         private UserRepository userRepository;
 
         public User createUser(User user) {
-<<<<<<< HEAD
+
 
             if(userRepository.findByEmail(user.getEmail()).isPresent())
                 throw new RuntimeException("Email ja cadastrado");
-=======
->>>>>>> e4b9b1d18d73ace7054103483583cfad4a824eb6
+
             return userRepository.save(user);
         }
 
@@ -47,11 +46,8 @@ public class UserService {
                 updatedUser.setName(userDetails.getName());
                 updatedUser.setEmail(userDetails.getEmail());
                 updatedUser.setPassword(userDetails.getPassword());
-<<<<<<< HEAD
                 updatedUser.setRole(userDetails.getRole());
                 updatedUser.setCellphone(userDetails.getCellphone());
-=======
->>>>>>> e4b9b1d18d73ace7054103483583cfad4a824eb6
                 return userRepository.save(updatedUser);
             }
             else throw new RuntimeException("User not found");
