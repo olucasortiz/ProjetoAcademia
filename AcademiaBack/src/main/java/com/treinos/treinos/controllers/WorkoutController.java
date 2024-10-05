@@ -8,6 +8,7 @@ import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -52,6 +53,7 @@ public class WorkoutController {
             @ApiResponse(responseCode = "400", description = "Invalid input provided"),
             @ApiResponse(responseCode = "500", description = "Internal server error")
     })
+    @PreAuthorize("hasRole('ROLE_TRAINER')") //apenas os trainers podem criar treinos
     @PostMapping
     public ResponseEntity<Workout> createWorkout(@RequestBody Workout workout) {
         Workout createdWorkout = workoutService.createWorkout(workout);
@@ -65,6 +67,8 @@ public class WorkoutController {
             @ApiResponse(responseCode = "404", description = "Workout not found"),
             @ApiResponse(responseCode = "500", description = "Internal server error")
     })
+
+    @PreAuthorize("hasRole('ROLE_TRAINER')")
     @PutMapping("/{id}")
     public ResponseEntity<Workout> updateWorkout(@PathVariable Integer id, @RequestBody Workout workout) {
         try {
@@ -81,6 +85,7 @@ public class WorkoutController {
             @ApiResponse(responseCode = "404", description = "Workout not found"),
             @ApiResponse(responseCode = "500", description = "Internal server error")
     })
+    @PreAuthorize("hasRole('ROLE_TRAINER')")
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deleteWorkout(@PathVariable Integer id) {
         try {

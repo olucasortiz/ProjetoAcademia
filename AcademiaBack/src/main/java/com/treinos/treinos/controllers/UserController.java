@@ -11,6 +11,7 @@ import com.treinos.treinos.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -81,6 +82,7 @@ public class UserController {
             @ApiResponse(responseCode = "404", description = "User not found"),
             @ApiResponse(responseCode = "500", description = "Internal server error")
     })
+    @PreAuthorize("hasRole('ROLE_TRAINER')")
     @PutMapping("/{id}")
     public ResponseEntity<User> updateUser(@PathVariable Integer id, @RequestBody User user) {
         try{
@@ -98,6 +100,7 @@ public class UserController {
             @ApiResponse(responseCode = "404", description = "User not found"),
             @ApiResponse(responseCode = "500", description = "Internal server error")
     })
+    @PreAuthorize("hasRole('ROLE_TRAINER')")
     @DeleteMapping("{id}")
     public ResponseEntity<User> deleteUser(@PathVariable Integer id) {
         try{
