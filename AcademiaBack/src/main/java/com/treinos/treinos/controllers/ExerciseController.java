@@ -8,6 +8,7 @@ import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -38,7 +39,6 @@ public class ExerciseController {
             @ApiResponse(responseCode = "404", description = "Exercise not found"),
             @ApiResponse(responseCode = "500", description = "Internal server error")
     })
-
     @GetMapping("/{id}")
     public ResponseEntity<Exercise> getExerciseById(@PathVariable Integer id) {
         try{
@@ -55,6 +55,7 @@ public class ExerciseController {
             @ApiResponse(responseCode = "400", description = "Invalid input provided"),
             @ApiResponse(responseCode = "500", description = "Internal server error")
     })
+    @PreAuthorize("hasRole('ROLE_TRAINER')")
     @PostMapping
     public ResponseEntity<Exercise> createExercise(@RequestBody Exercise exercise) {
         Exercise createdExercise = exerciseService.createExercise(exercise);
@@ -69,6 +70,7 @@ public class ExerciseController {
             @ApiResponse(responseCode = "500", description = "Internal server error")
     })
 
+    @PreAuthorize("hasRole('ROLE_TRAINER')")
     @PutMapping("/{id}")
     public ResponseEntity<Exercise> updateExercise(@PathVariable Integer id, @RequestBody Exercise exercise) {
         try{
@@ -87,7 +89,7 @@ public class ExerciseController {
             @ApiResponse(responseCode = "404", description = "Exercise not found"),
             @ApiResponse(responseCode = "500", description = "Internal server error")
     })
-
+    @PreAuthorize("hasRole('ROLE_TRAINER')")
     @DeleteMapping("/{id}")
     public ResponseEntity<Exercise> deleteExercise(@PathVariable Integer id) {
         try{
