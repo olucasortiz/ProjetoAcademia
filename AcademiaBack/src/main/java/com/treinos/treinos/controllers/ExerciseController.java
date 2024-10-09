@@ -18,20 +18,22 @@ import java.util.List;
 
 public class ExerciseController {
 
+
     @Autowired
     private ExerciseService exerciseService;
+
+
+
     @Operation(summary = "Get all exercises", description = "This endpoint retrieves all exercises in the system")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Exercises retrieved successfully"),
             @ApiResponse(responseCode = "500", description = "Internal server error")
     })
-
     @GetMapping
     public ResponseEntity<List<Exercise>> getAllExercises() {
         List<Exercise> exercises = exerciseService.findAllExercises();
         return ResponseEntity.ok(exercises);
     }
-
 
     @Operation(summary = "Get an exercise by ID", description = "This endpoint retrieves an exercise by its ID.")
     @ApiResponses(value = {

@@ -1,9 +1,7 @@
 package com.treinos.treinos.services;
 
-
 import com.treinos.treinos.models.Exercise;
 import com.treinos.treinos.repositories.ExerciseRepository;
-import com.treinos.treinos.services.ExerciseService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
@@ -28,8 +26,8 @@ public class ExerciseServiceTest {
     @BeforeEach
     void setUp() {
         MockitoAnnotations.openMocks(this);
-        exercise = new Exercise("Push-up", "A basic push-up exercise");
-
+        // Atualizando o construtor para incluir os novos campos
+        exercise = new Exercise("Push-up", "A basic push-up exercise", "Chest", "Upper Body", "None");
     }
 
     @Test
@@ -74,10 +72,11 @@ public class ExerciseServiceTest {
 
         verify(exerciseRepository, times(1)).deleteById(1);
     }
+
     @Test
     public void testCreateExerciseWithDuplicateName() {
         // Simula um exercício com nome duplicado
-        Exercise exercise = new Exercise("Squat", "Exercise for legs");
+        Exercise exercise = new Exercise("Squat", "Exercise for legs", "Legs", "Lower Body", "Barbell");
 
         // Simula o comportamento esperado de encontrar um nome duplicado
         when(exerciseRepository.findByName("Squat")).thenReturn(Optional.of(exercise));
@@ -87,5 +86,4 @@ public class ExerciseServiceTest {
             exerciseService.createExercise(exercise);
         });
     }
-
 }

@@ -22,20 +22,15 @@ public class SecurityConfig {
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         http
                 .csrf(csrf -> csrf.disable())  // Desativa CSRF para facilitar no desenvolvimento
-                .authorizeHttpRequests(authz ->authz
-                        .requestMatchers("/gym/user").permitAll()
-                        .requestMatchers("gym/user/**").authenticated()//apenas usuarios autenticados podem acessar essa rota
-                        .requestMatchers("/gym/workouts/**").hasRole("TRAINER")// Apenas treinadores podem acessar endpoints que começam com "/trainer"
-                        .anyRequest().authenticated()  // Todas as outras requisições precisam estar autenticadas
+                .authorizeHttpRequests(authz -> authz
+                        .anyRequest().permitAll() // Permite todos acessarem todos os endpoints sem autenticação
                 )
-                .formLogin(form -> form
-                        .permitAll()  // Permite todos acessarem a página de login
-                )
-                .logout(logout -> logout.permitAll())  // Permite que todos possam se deslogar
-                .userDetailsService(customUserDetailsService);  // Usa o custom UserDetailsService
+                .formLogin(form -> form.disable()) // Desabilita o formulário de login
+                .logout(logout -> logout.permitAll()); // Permite que todos possam se deslogar
 
         return http.build();
     }
+
 
     // Define o PasswordEncoder como um bean
     @Bean
