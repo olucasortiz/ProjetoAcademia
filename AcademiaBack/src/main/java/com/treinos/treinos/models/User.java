@@ -1,10 +1,13 @@
 package com.treinos.treinos.models;
 
 import jakarta.persistence.*;
+import org.springframework.security.core.userdetails.UserDetails;
+
+import java.io.Serializable;
 
 @Entity
 @Table(name = "users")
-public class User {
+public class User implements UserDetails {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

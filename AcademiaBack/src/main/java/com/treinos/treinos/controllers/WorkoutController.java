@@ -2,11 +2,12 @@ package com.treinos.treinos.controllers;
 
 import com.treinos.treinos.models.User;
 import com.treinos.treinos.models.Workout;
+import com.treinos.treinos.services.CustomUserDetails;
 import com.treinos.treinos.services.WorkoutService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
-import org.apache.tomcat.util.net.openssl.ciphers.Authentication;
+import org.springframework.security.core.Authentication;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -31,7 +32,8 @@ public class WorkoutController {
     @GetMapping("/my-workouts")
     @PreAuthorize("hasRole('ROLE_USER') or hasRole('ROLE_TRAINER')")
     public ResponseEntity<List<Workout>> getUserWorkouts(Authentication authentication) {
-        User user = (User) authentication.getPrincipal();
+        CustomUserDetails userDetails = (CustomUserDetails) authentication.getPrincipal();
+        User user = userDetails.getUser(); // Acessa o usuário encapsulado
         List<Workout> workouts = workoutService.findWorkoutsByUser(user.getId());
         return ResponseEntity.ok(workouts);
     }
