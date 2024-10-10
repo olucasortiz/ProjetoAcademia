@@ -1,10 +1,12 @@
 package com.treinos.treinos.controllers;
 
+import com.treinos.treinos.models.User;
 import com.treinos.treinos.models.Workout;
 import com.treinos.treinos.services.WorkoutService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
+import org.apache.tomcat.util.net.openssl.ciphers.Authentication;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -20,6 +22,20 @@ public class WorkoutController {
     @Autowired
     private WorkoutService workoutService;
 
+
+    @Operation(summary = "Get workouts for the logged-in user", description = "This endpoint retrieves workouts for the logged-in user")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Workouts retrieved successfully"),
+            @ApiResponse(responseCode = "500", description = "Internal server error")
+    })
+    @GetMapping("/my-workouts")
+    @PreAuthorize("hasRole('ROLE_USER') or hasRole('ROLE_TRAINER')")
+    public ResponseEntity<List<Workout>> getUserWorkouts(Authentication authentication) {
+        User user = (User) authentication.getPrincipal();
+        List<Workout> workouts = workoutService.findWorkoutsByUser(user.getId());
+        return ResponseEntity.ok(workouts);
+    }
+
     @Operation(summary = "Get all workouts", description = "This endpoint retrieves all workouts in the system")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Workouts retrieved successfully"),
@@ -28,7 +44,7 @@ public class WorkoutController {
     @GetMapping
     public ResponseEntity<List<Workout>> getAllWorkouts() {
         List<Workout> workouts = workoutService .findAllWorkouts();
-        return ResponseEntity.ok(workouts);
+         return ResponseEntity.ok(workouts);
     }
 
     @Operation(summary = "Get a workout by ID", description = "This endpoint retrieves a workout by its ID")

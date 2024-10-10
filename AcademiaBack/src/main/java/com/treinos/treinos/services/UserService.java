@@ -58,6 +58,9 @@ public class UserService {
             }
             else throw new RuntimeException("User not found");
         }
+    public List<User> findUsersByRole(String role) {
+        return userRepository.findByRole(role);
+    }
 
         // Encontra todos os usuários
         public List<User> findAllUsers() {
