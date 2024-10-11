@@ -61,7 +61,10 @@ public class UserController {
     })
     @PostMapping
     public ResponseEntity<User> createUser(@RequestBody User user) {
-        try{
+        try {
+            // Definir role padrão
+            user.setRole("ROLE_USER");
+
             User createdUser = userService.createUser(user);
             String email = user.getEmail();
             String subject = "Bem vindo ao Sistema de Treinos";
@@ -69,11 +72,11 @@ public class UserController {
                     "Bem vindo ao nosso sistema de treinos. Estamos felizes em tê-lo conosco";
             emailService.sendSimpleMessage(email, subject, message);
             return ResponseEntity.status(HttpStatus.CREATED).body(createdUser);
-        }catch(RuntimeException e){
+        } catch(RuntimeException e) {
             return ResponseEntity.status(HttpStatus.CONFLICT).body(null);
         }
-
     }
+
 
     @Operation(summary = "Update a User", description = "This endpoint updates a user's details")
     @ApiResponses(value = {
@@ -82,7 +85,7 @@ public class UserController {
             @ApiResponse(responseCode = "404", description = "User not found"),
             @ApiResponse(responseCode = "500", description = "Internal server error")
     })
-    @PreAuthorize("hasRole('ROLE_TRAINER')")
+    //@PreAuthorize("hasRole('ROLE_TRAINER')")
     @PutMapping("/{id}")
     public ResponseEntity<User> updateUser(@PathVariable Integer id, @RequestBody User user) {
         try{
@@ -100,7 +103,7 @@ public class UserController {
             @ApiResponse(responseCode = "404", description = "User not found"),
             @ApiResponse(responseCode = "500", description = "Internal server error")
     })
-    @PreAuthorize("hasRole('ROLE_TRAINER')")
+    //@PreAuthorize("hasRole('ROLE_TRAINER')")
     @DeleteMapping("{id}")
     public ResponseEntity<User> deleteUser(@PathVariable Integer id) {
         try{

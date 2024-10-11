@@ -30,10 +30,10 @@ public class WorkoutController {
             @ApiResponse(responseCode = "500", description = "Internal server error")
     })
     @GetMapping("/my-workouts")
-    @PreAuthorize("hasRole('ROLE_USER') or hasRole('ROLE_TRAINER')")
+    //@PreAuthorize("hasRole('ROLE_USER') or hasRole('ROLE_TRAINER')")
     public ResponseEntity<List<Workout>> getUserWorkouts(Authentication authentication) {
         CustomUserDetails userDetails = (CustomUserDetails) authentication.getPrincipal();
-        User user = userDetails.getUser(); // Acessa o usuário encapsulado
+        User user =  userDetails.getUser(); // Acessa o usuário encapsulado
         List<Workout> workouts = workoutService.findWorkoutsByUser(user.getId());
         return ResponseEntity.ok(workouts);
     }
@@ -71,7 +71,7 @@ public class WorkoutController {
             @ApiResponse(responseCode = "400", description = "Invalid input provided"),
             @ApiResponse(responseCode = "500", description = "Internal server error")
     })
-    @PreAuthorize("hasRole('ROLE_TRAINER')") //apenas os trainers podem criar treinos
+    //@PreAuthorize("hasRole('ROLE_TRAINER')") //apenas os trainers podem criar treinos
     @PostMapping
     public ResponseEntity<Workout> createWorkout(@RequestBody Workout workout) {
         Workout createdWorkout = workoutService.createWorkout(workout);
@@ -86,7 +86,7 @@ public class WorkoutController {
             @ApiResponse(responseCode = "500", description = "Internal server error")
     })
 
-    @PreAuthorize("hasRole('ROLE_TRAINER')")
+    //@PreAuthorize("hasRole('ROLE_TRAINER')")
     @PutMapping("/{id}")
     public ResponseEntity<Workout> updateWorkout(@PathVariable Integer id, @RequestBody Workout workout) {
         try {
@@ -103,7 +103,7 @@ public class WorkoutController {
             @ApiResponse(responseCode = "404", description = "Workout not found"),
             @ApiResponse(responseCode = "500", description = "Internal server error")
     })
-    @PreAuthorize("hasRole('ROLE_TRAINER')")
+    //@PreAuthorize("hasRole('ROLE_TRAINER')")
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deleteWorkout(@PathVariable Integer id) {
         try {

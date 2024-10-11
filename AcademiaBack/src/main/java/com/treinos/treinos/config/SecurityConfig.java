@@ -19,22 +19,21 @@ public class SecurityConfig {
     }
 
     @Bean
+    public PasswordEncoder passwordEncoder() {
+        return new BCryptPasswordEncoder(); // Definindo o bean do PasswordEncoder
+    }
+
+    @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         http
                 .csrf(csrf -> csrf.disable())  // Desativa CSRF para facilitar no desenvolvimento
                 .authorizeHttpRequests(authz -> authz
-                        .anyRequest().permitAll() // Permite todos acessarem todos os endpoints sem autenticação
+                        .anyRequest().permitAll()  // Permite todas as requisições
                 )
-                .formLogin(form -> form.disable()) // Desabilita o formulário de login
-                .logout(logout -> logout.permitAll()); // Permite que todos possam se deslogar
+                .formLogin(form -> form.disable())  // Desabilita o formulário de login
+                .httpBasic(basic -> basic.disable())  // Desabilita autenticação básica
+                .logout(logout -> logout.disable());  // Desabilita o logout
 
         return http.build();
-    }
-
-
-    // Define o PasswordEncoder como um bean
-    @Bean
-    public PasswordEncoder passwordEncoder() {
-        return new BCryptPasswordEncoder();
     }
 }

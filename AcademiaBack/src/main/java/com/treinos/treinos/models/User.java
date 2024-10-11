@@ -1,22 +1,27 @@
 package com.treinos.treinos.models;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotEmpty;
+import jakarta.validation.constraints.NotNull;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import java.io.Serializable;
 
 @Entity
 @Table(name = "users")
-public class User implements UserDetails {
+public class User{
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
+    @NotEmpty
     private String name;
     @Column(nullable = false, unique = true)//vai garantir qe o email seja unico
     private String email;
+    @NotNull
     private String password;
     private String role;
+    @NotNull
     private String cellphone;
 
     public User() {

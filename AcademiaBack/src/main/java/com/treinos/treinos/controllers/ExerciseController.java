@@ -23,7 +23,6 @@ public class ExerciseController {
     private ExerciseService exerciseService;
 
 
-
     @Operation(summary = "Get all exercises", description = "This endpoint retrieves all exercises in the system")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Exercises retrieved successfully"),
@@ -57,7 +56,7 @@ public class ExerciseController {
             @ApiResponse(responseCode = "400", description = "Invalid input provided"),
             @ApiResponse(responseCode = "500", description = "Internal server error")
     })
-    @PreAuthorize("hasRole('ROLE_TRAINER')")
+    //@PreAuthorize("hasRole('ROLE_TRAINER')")
     @PostMapping
     public ResponseEntity<Exercise> createExercise(@RequestBody Exercise exercise) {
         Exercise createdExercise = exerciseService.createExercise(exercise);
@@ -72,7 +71,7 @@ public class ExerciseController {
             @ApiResponse(responseCode = "500", description = "Internal server error")
     })
 
-    @PreAuthorize("hasRole('ROLE_TRAINER')")
+    //@PreAuthorize("hasRole('ROLE_TRAINER')")
     @PutMapping("/{id}")
     public ResponseEntity<Exercise> updateExercise(@PathVariable Integer id, @RequestBody Exercise exercise) {
         try{
@@ -91,7 +90,7 @@ public class ExerciseController {
             @ApiResponse(responseCode = "404", description = "Exercise not found"),
             @ApiResponse(responseCode = "500", description = "Internal server error")
     })
-    @PreAuthorize("hasRole('ROLE_TRAINER')")
+    //@PreAuthorize("hasRole('ROLE_TRAINER')")
     @DeleteMapping("/{id}")
     public ResponseEntity<Exercise> deleteExercise(@PathVariable Integer id) {
         try{
