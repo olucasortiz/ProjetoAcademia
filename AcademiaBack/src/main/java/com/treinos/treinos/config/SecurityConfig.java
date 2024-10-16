@@ -1,14 +1,23 @@
 package com.treinos.treinos.config;
 
 import com.treinos.treinos.services.CustomUserDetailsService;
+import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
+import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
-import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.web.cors.CorsConfiguration;
+import org.springframework.web.cors.CorsConfigurationSource;
+import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
+
+import java.util.List;
 
 @Configuration
 public class SecurityConfig {
@@ -20,8 +29,13 @@ public class SecurityConfig {
     }
 
     @Bean
+    public AuthenticationManager authenticationManager(AuthenticationConfiguration authenticationConfiguration) throws Exception {
+        return authenticationConfiguration.getAuthenticationManager();
+    }
+
+    @Bean
     public PasswordEncoder passwordEncoder() {
-        return new BCryptPasswordEncoder(); // Definindo o bean do PasswordEncoder
+        return new BCryptPasswordEncoder();
     }
 
     @Bean
@@ -33,28 +47,60 @@ public class SecurityConfig {
     }
 
     @Bean
+    public CorsConfigurationSource corsConfigurationSource() {
+        CorsConfiguration configuration = new CorsConfiguration();
+        configuration.setAllowCredentials(true);
+        configuration.setAllowedOrigins(List.of("http://127.0.0.1:5500"));  // Origem permitida
+        configuration.setAllowedMethods(List.of("GET", "POST", "PUT", "DELETE", "OPTIONS"));
+        configuration.setAllowedHeaders(List.of("Authorization", "Content-Type", "Accept"));
+
+        UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
+        source.registerCorsConfiguration("/**", configuration); // Aplicando a configuração de CORS para todas as rotas
+        return source;
+    }
+
+    @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         http
-                .csrf(csrf -> csrf.disable())  // Desativa CSRF para facilitar no desenvolvimento
+                .cors(cors -> cors.configurationSource(corsConfigurationSource()))
+                .csrf(csrf -> csrf.disable())
                 .authorizeHttpRequests(authz -> authz
-                        .requestMatchers("/gym/workouts/**").hasAnyRole("USER", "TRAINER")
-                        .requestMatchers("/gym/exercises/**").hasRole("TRAINER")
-                        .requestMatchers("/gym/user/**").hasRole("TRAINER")
-                        .anyRequest().permitAll()  // Qualquer outra requisição é permitida
+                        .requestMatchers("/api/auth/**").permitAll()  // Permite rotas de autenticação
+                        .requestMatchers("/gym/user/**").permitAll()  // Permite rota de registro de usuários
+                        .anyRequest().authenticated()  // Exige autenticação para as demais rotas
                 )
+                /* aqui estava dando os B.O
                 .formLogin(form -> form
-                        .loginPage("/login.html")  // Define a página de login
-                        .loginProcessingUrl("/api/auth/login")  // URL do login POST
-                        .defaultSuccessUrl("/dashboard", true)  // Redireciona após sucesso
-                        .failureUrl("/login.html?error=true")  // Redireciona em caso de falha
+                        .loginProcessingUrl("/api/auth/login")
+                        .successHandler((request, response, authentication) -> {
+                            response.setContentType("application/json");
+                            response.setCharacterEncoding("UTF-8");
+                            response.getWriter().write("{\"message\": \"Login bem-sucedido\"}");
+                        })
+                        .failureHandler((request, response, exception) -> {
+                            response.setContentType("application/json");
+                            response.setCharacterEncoding("UTF-8");
+                            response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
+                            response.getWriter().write("{\"message\": \"Falha no login\"}");
+                        })
                         .permitAll()
                 )
+
+                 */
                 .logout(logout -> logout
-                        .logoutUrl("/logout")
-                        .logoutSuccessUrl("/login.html?logout=true")
+                        .logoutUrl("/api/auth/logout")  // Defina uma rota de logout compatível com sua API
+                        .logoutSuccessHandler((request, response, authentication) -> {
+                            response.setContentType("application/json");
+                            response.setCharacterEncoding("UTF-8");
+                            response.getWriter().write("{\"message\": \"Logout bem-sucedido\"}");
+                        })
                         .permitAll()
+                )
+                .sessionManagement(session -> session
+                        .sessionCreationPolicy(SessionCreationPolicy.STATELESS)  // Gerenciamento de sessão sem estado (recomendado para APIs)
                 );
 
         return http.build();
     }
+
 }

@@ -22,7 +22,7 @@ class UserService {
 
             if (response) {
                 alert('Usuário registrado com sucesso! Faça login.');
-                window.location.href = 'login.html';
+                window.location.href = 'http://127.0.0.1:5500/pages/login.html';
             } else {
                 alert('Erro ao registrar, tente novamente.');
             }
@@ -38,14 +38,23 @@ class UserService {
                 },
                 body: JSON.stringify(body)
             });
-
+    
+            // Verifica se a resposta foi bem-sucedida
             if (!response.ok) throw new Error(`Erro: ${response.status}`);
-            return await response.json();
+    
+            // Verifica se a resposta tem conteúdo JSON
+            const contentType = response.headers.get('content-type');
+            if (contentType && contentType.includes('application/json')) {
+                return await response.json();  // Trata como JSON
+            } else {
+                throw new Error('Resposta não é JSON');
+            }
         } catch (error) {
             console.error('Erro na requisição:', error);
             return null;
         }
     }
+    
 }
 
 // Inicializando o serviço de usuário
