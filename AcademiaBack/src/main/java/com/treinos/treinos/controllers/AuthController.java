@@ -7,14 +7,18 @@ import com.treinos.treinos.repositories.UserRepository;
 import com.treinos.treinos.services.CustomUserDetails;
 import com.treinos.treinos.services.CustomUserDetailsService;
 import com.treinos.treinos.services.UserService;
+import com.treinos.treinos.utils.JwtUtils;
+import com.twilio.jwt.Jwt;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
@@ -29,14 +33,29 @@ public class AuthController {
     private AuthenticationManager authenticationManager;
 
     @Autowired
+    private JwtUtils utils;
+
+    @Autowired
     private PasswordEncoder passwordEncoder;
 
     @Autowired
     private UserService userService;
 
     @PostMapping("/login")
-    public ResponseEntity<?> login(@RequestBody LoginRequest loginRequest) {
-        try {
+    public ResponseEntity<String> login(@RequestBody LoginRequest loginRequest) {
+        try{
+            Authentication authentication = authenticationManager.authenticate(
+                    new UsernamePasswordAuthenticationToken(loginRequest.getEmail(), loginRequest.getPassword()));
+            //se a autenticacao der certo vai gerar um token JWT
+            UserDetails userDetails = (UserDetails) authentication.getPrincipal();
+            String token = utils.generateToken(userDetails.getUsername());
+
+            return ResponseEntity.ok(token);
+        }catch (BadCredentialsException e){
+            return new ResponseEntity<>("Acesso não permitido", HttpStatus.FORBIDDEN);
+        }
+
+        /*try {
             Authentication authentication = authenticationManager.authenticate(
                     new UsernamePasswordAuthenticationToken(
                             loginRequest.getEmail(),
@@ -50,6 +69,8 @@ public class AuthController {
         } catch (AuthenticationException e) {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(Map.of("message", "Autenticação falhou"));
         }
+
+         */
     }
 
 

@@ -1,7 +1,9 @@
 package com.treinos.treinos.config;
 
 import com.treinos.treinos.services.CustomUserDetailsService;
+import com.treinos.treinos.utils.JwtUtils;
 import jakarta.servlet.http.HttpServletResponse;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -22,9 +24,12 @@ import java.util.List;
 @Configuration
 public class SecurityConfig {
 
+    private final JwtUtils jwtUtils;
+
     private final CustomUserDetailsService customUserDetailsService;
 
-    public SecurityConfig(CustomUserDetailsService customUserDetailsService) {
+    public SecurityConfig(JwtUtils jwtUtils, CustomUserDetailsService customUserDetailsService) {
+        this.jwtUtils = jwtUtils;
         this.customUserDetailsService = customUserDetailsService;
     }
 
@@ -65,9 +70,9 @@ public class SecurityConfig {
                 .cors(cors -> cors.configurationSource(corsConfigurationSource()))
                 .csrf(csrf -> csrf.disable())
                 .authorizeHttpRequests(authz -> authz
-                        .requestMatchers("/api/auth/**").permitAll()  // Permite rotas de autenticação
-                        .requestMatchers("/gym/user/**").permitAll()  // Permite rota de registro de usuários
-                        .anyRequest().authenticated()  // Exige autenticação para as demais rotas
+                        .requestMatchers("/api/auth/**").permitAll()
+                        .requestMatchers("/gym/user/**").permitAll()
+                        .anyRequest().authenticated()  // Todas as outras rotas precisam de autenticação
                 )
                 /* aqui estava dando os B.O
                 .formLogin(form -> form
